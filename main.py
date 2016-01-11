@@ -1,27 +1,25 @@
-from __future__ import print_function
-from drawille import Canvas, line, animate
-from time import localtime
 import math
+from time import localtime
+from drawille import Canvas, line, animate
 
-def __main__():
-    i = 0
+
+def clock():
     radius = 16
 
     while True:
         frame = []
 
-        t = localtime()
+        current_time = localtime()
+        hours = math.pi * (2 * current_time[3] / 24. - 1. / 2)
+        minutes = math.pi * (2 * current_time[4] / 60. - 1. / 2)
+        seconds = math.pi * (2 * current_time[5] / 60. - 1. / 2)
 
-        h = 2 * math.pi * (t[3] / 24.) - math.pi / 2
-        m = 2 * math.pi * (t[4] / 60.) - math.pi / 2
-        s = 2 * math.pi * (t[5] / 60.) - math.pi / 2
-
-        for p, l in [(h, radius / 3), (m, 3 * radius / 4), (s, radius)]:
-            frame.extend([coords for coords in
-                          line(radius,
-                               radius,
-                               radius + l * math.cos(p),
-                               radius + l * math.sin(p))])
+        for angle, length in [(hours, radius / 3), (minutes, 3 * radius / 4),
+                              (seconds, radius)]:
+            frame.extend([c for c in line(radius,
+                                          radius,
+                                          radius + length * math.cos(angle),
+                                          radius + length * math.sin(angle))])
 
         frame.extend([(radius + radius * math.cos(math.radians(x)),
                        radius + radius * math.sin(math.radians(x)))
@@ -31,4 +29,4 @@ def __main__():
 
 
 if __name__ == '__main__':
-    animate(Canvas(), __main__, 1./2)
+    animate(Canvas(), clock, 1./2)
