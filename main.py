@@ -9,12 +9,13 @@ def clock():
     while True:
         frame = []
 
-        current_time = localtime()
-        hours = math.pi * (2 * current_time[3] / 24. - 1. / 2)
-        minutes = math.pi * (2 * current_time[4] / 60. - 1. / 2)
-        seconds = math.pi * (2 * current_time[5] / 60. - 1. / 2)
+        hour, minute, second = localtime()[3:6]
 
-        for angle, length in [(hours, radius / 3), (minutes, 3 * radius / 4),
+        hours = math.pi * (4 * hour / 24. - 1./2)
+        minutes = math.pi * (2 * minute / 60. - 1. / 2)
+        seconds = math.pi * (2 * second / 60. - 1. / 2)
+
+        for angle, length in [(hours, radius / 2), (minutes, 3 * radius / 4),
                               (seconds, radius)]:
             frame.extend([c for c in line(radius,
                                           radius,
